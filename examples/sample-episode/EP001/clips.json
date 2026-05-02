@@ -1,0 +1,68 @@
+{
+  "episode": "EP001",
+  "generated_at": "2026-05-04T18:22:00-07:00",
+  "target_count": 10,
+  "returned_count": 5,
+  "clips": [
+    {
+      "id": "C-EP001-01",
+      "start": "00:01:26",
+      "end": "00:02:08",
+      "duration_seconds": 42,
+      "category": "contrarian",
+      "score": 9.4,
+      "platforms": ["tiktok", "reels", "shorts"],
+      "caption": "Anthropic's real move wasn't Opus 5. Nobody's talking about it.",
+      "rationale": "clean setup, named number (40%), definitive payoff, stands alone",
+      "excerpt": "HOST: Sonnet 5. They quietly released a new Sonnet variant the same day, priced 40 percent below the prior Sonnet. Forty percent. That's the move. Because if you actually run an enterprise AI workload, you're not running it on Opus. You're running it on Sonnet. Sonnet's the volume play. And they just dropped the price 40 percent on it. What they're telling you when they do that is — they think inference cost is going to keep collapsing and they want to be the cheap-and-good API before OpenAI gets there. Opus 5 is the optics. Sonnet 5 is the actual move."
+    },
+    {
+      "id": "C-EP001-02",
+      "start": "00:05:14",
+      "end": "00:05:48",
+      "duration_seconds": 34,
+      "category": "contrarian",
+      "score": 9.2,
+      "platforms": ["tiktok", "reels", "shorts"],
+      "caption": "Spotify just had a great quarter. Everyone's reading it wrong.",
+      "rationale": "clear take, named number (28%), reframes the headline",
+      "excerpt": "HOST: This is actually my favorite story of the week, because the headline is — podcast ad revenue up 28 percent year over year, beat consensus by 6, stock up 11 percent the next morning. Great quarter. And every write-up I've read is saying podcast ads are back. That's wrong. This is not a podcast story. This is a programmatic-buying story. Spotify finally finished building the stack that makes audio inventory addressable."
+    },
+    {
+      "id": "C-EP001-03",
+      "start": "00:06:32",
+      "end": "00:07:08",
+      "duration_seconds": 36,
+      "category": "stats",
+      "score": 8.9,
+      "platforms": ["reels", "shorts"],
+      "caption": "Spotify wrote down $200M and buried it in OpEx.",
+      "rationale": "surprising number, name-checks Daniel Ek quote, complete arc",
+      "excerpt": "HOST: They wrote down 200 million dollars on a podcast exclusive deal this quarter. Buried it in the OpEx line, did not call it out separately. This is the third write-down on a single deal in eighteen months. And meanwhile, in the same call, Daniel Ek says — and I quote — we're not in the content business, we're in the routing business. Said it three times. The exclusive deal era is dead. They're done with it."
+    },
+    {
+      "id": "C-EP001-04",
+      "start": "00:04:02",
+      "end": "00:04:42",
+      "duration_seconds": 40,
+      "category": "arcs",
+      "score": 8.7,
+      "platforms": ["tiktok", "reels"],
+      "caption": "Dario said it four times. He's signaling.",
+      "rationale": "setup-tension-payoff in 40s, quotable line lands at the end",
+      "excerpt": "HOST: If they thought Opus was the future they'd have priced Sonnet as a downstream product. Instead they're underbidding their own Sonnet. They're saying — we expect this layer to commoditize, we want to be the default cheap-and-good option, and we'll let the flagship sell itself on benchmarks. Dario said the line — models are moving from products to commodities. He said it four times in one interview. Four. That's not a guy who's hedging. That's a guy who's signaling."
+    },
+    {
+      "id": "C-EP001-05",
+      "start": "00:00:00",
+      "end": "00:00:34",
+      "duration_seconds": 34,
+      "category": "openers",
+      "score": 8.4,
+      "platforms": ["shorts", "tiktok", "reels"],
+      "caption": "Two stories from this week. Everyone got both wrong.",
+      "rationale": "cold-open hook, sets up the episode in 30s, works as a teaser",
+      "excerpt": "HOST: All right, welcome back. Big week. Really big week — two things happened that I don't think anyone is connecting yet, and I want to talk about both. Anthropic shipped Opus 5 on Tuesday, Spotify reported Thursday, and the stock popped. And the story everyone's writing about both of these is wrong. Or not wrong, just surface level. So let's get into it."
+    }
+  ]
+}

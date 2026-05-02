@@ -1,0 +1,20 @@
+{
+  "episode": "{{episode_number}}",
+  "generated_at": "{{iso_timestamp}}",
+  "target_count": {{target_count}},
+  "returned_count": {{returned_count}},
+  "clips": [
+    {
+      "id": "{{clip_id}}",
+      "start": "{{start}}",
+      "end": "{{end}}",
+      "duration_seconds": {{duration}},
+      "category": "{{category}}",
+      "score": {{score}},
+      "platforms": ["{{platform}}"],
+      "caption": "{{caption}}",
+      "rationale": "{{rationale}}",
+      "excerpt": "{{excerpt}}"
+    }
+  ]
+}
