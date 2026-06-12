@@ -52,12 +52,19 @@ When this skill activates, follow these steps in order.
    - Select `card_count` items: lead with the strongest hook, alternate heavy/light where possible, end on the most forward-looking item.
    - Honesty rule: if the pool is thin or no thread exists, build the best mixed-bag sheet you can and say plainly in the summary that it's a grab bag.
 
-5. **Draft the sheet content.**
+5. **Fetch the meat.**
+   - For each *selected* card (after the pick, never the whole pool), fetch the source URL — WebFetch for articles, the Reddit tools for Reddit threads (grab the post body and the top handful of comments).
+   - Write a `brief`: 4–7 sentences of the actual story. Actors, numbers, the sequence of events, notable reactions. The bar: the host should be able to riff on the topic without ever clicking the source link mid-session.
+   - Facts in the brief come from the fetched source, not from imagination. If a fetch fails (paywall, deleted post, timeout), ship the card with the inbox summary only and put "source unreachable — context only" at the top of the brief slot. Never pad.
+
+6. **Draft the sheet content.**
    - **Intro candidates (2–3):** each under 25 words, in the show's voice, framing the thread. The cold open is the hook and comes before any branding — make each line memorable enough to deliver after one glance, not teleprompter prose.
    - **Show ID candidates (2):** the who-and-what that follows the cold open: show name, host name, one credential clause, and optionally a one-clause tease of tonight's thread. Built from `show.name` and `host.short_bio`. Keep the fixed part stable across episodes so it becomes a ritual the host can say from memory; only the tease clause varies.
    - **Per card:**
      - `headline` — the topic in the host's framing, not the source's headline.
      - `context` — a 15-second setup: who, what number, what happened. One or two sentences.
+     - `brief` — the producer's brief from step 5. This is the meat: the host picks up the full story from the card, not from the link.
+     - `stars` — 3–5 anchor bullets: the names, numbers, and verbatim quotes to orient on, including a "your story bank" line when one of the host's own anecdotes fits.
      - `angle` — the host's pre-loaded take. If the node already carries one (e.g. a "potential angle" section naming voice-library positions), use it as the basis; otherwise draft one from the show's point of view.
      - `riffs` — 2–3 open prompts that point at where the riff can go ("What does this mean for the founder who…", "The historical parallel here is…"). Prompts, not sentences to read.
      - `positions` — voice-library position slugs this card reinforces, if any.
@@ -65,22 +72,22 @@ When this skill activates, follow these steps in order.
      - `node` — the relative path of the source node file, so `riff-capture` can find it later.
    - **Sign-off candidates (2):** one or two sentences each, with one specific ask (subscribe, share, reply — pick one per episode). Include the newsletter mention if `host.newsletter_tie_in.enabled` is true.
 
-6. **Voice check.**
+7. **Voice check.**
    - Scan every generated line against `style/voice.md` plus config extras. Replace hits.
 
-7. **Write and render.**
+8. **Write and render.**
    - Resolve the episode number, create `outbox/episodes/EP###/` if missing.
    - Write `hotsheet.json` per the schema in `scripts/render_hotsheet.py`.
    - Run: `python3 <abs path>/scripts/render_hotsheet.py <abs path>/outbox/episodes/EP###/hotsheet.json`
    - The script validates required fields and writes `hotsheet.html` alongside the JSON.
 
-8. **Start the state server and open the tab.**
+9. **Start the state server and open the tab.**
    - Run in the background: `python3 <abs path>/scripts/hotsheet_server.py <abs path>/outbox/episodes/EP###`
    - It prints the URL it settled on (`http://127.0.0.1:<port>/hotsheet.html`). Open that URL — macOS: `open <url>` (add `-a "Google Chrome"` if the default browser isn't the right one).
    - Served this way, every checkbox toggle on the page writes `riffed.json` into the episode folder, so `riff-capture` needs no input from the host. The server exits on its own after 4 idle hours.
    - If the server can't start, fall back to `open <abs path>/.../hotsheet.html` — the page degrades to localStorage plus the "Copy riff summary" button.
 
-9. **Print summary.**
+10. **Print summary.**
    - Episode number, theme line, cards chosen (title + source), pool stats (candidates read, filtered, picked), the page URL, and the reminder: after recording, just say "capture EP###" — the checkboxes already recorded which cards were riffed.
 
 ## Connectors and APIs
@@ -91,7 +98,7 @@ When this skill activates, follow these steps in order.
 | Filesystem write | `hotsheet.json` + `hotsheet.html` in the episode folder | Required. |
 | Shell | Run the render script; open the browser tab | If `open` fails, print the file path for manual opening. |
 
-No network access is needed — the hot sheet is built entirely from material upstream pipelines already collected. That keeps "let's do an episode" fast.
+Network use is limited to the selected cards (step 5) — one fetch per card to write the brief, after the pick is made. Selection itself runs entirely on material upstream pipelines already collected, which keeps "let's do an episode" fast.
 
 ## Examples
 

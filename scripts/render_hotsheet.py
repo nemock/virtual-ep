@@ -25,6 +25,9 @@ hotsheet.json schema (all string fields are plain text unless noted):
       "source": "r/biotech",
       "url": "https://...",            // optional
       "context": "15-second setup the host can glance at.",
+      "brief": "Producer's brief — 4-7 sentences of the actual story (actors, numbers,
+                sequence, reactions) so the host never has to click the source link
+                mid-session. String or list of paragraph strings.",
       "stars": ["anchor fact 1", "anchor fact 2"],  // optional, the names/numbers/quotes to orient on
       "angle": "The host's pre-loaded take.",
       "riffs": ["prompt 1", "prompt 2"],
@@ -64,6 +67,10 @@ def render_card(card, index):
         if url
         else f'<span class="source-link plain">{source}</span>'
     )
+    brief = card.get("brief", "")
+    if isinstance(brief, str):
+        brief = [brief] if brief else []
+    brief_html = "\n".join(f"<p>{esc(p)}</p>" for p in brief)
     stars = "\n".join(f"<li>{esc(s)}</li>" for s in card.get("stars", []))
     riffs = "\n".join(f"<li>{esc(r)}</li>" for r in card.get("riffs", []))
     chips = "\n".join(
@@ -81,6 +88,7 @@ def render_card(card, index):
   </div>
   <div class="meta-row">{link}{('<span class="chips">' + chips + '</span>') if chips else ''}</div>
   <p class="context">{esc(card.get('context', ''))}</p>
+  {f'<div class="brief"><span class="brief-label">The story</span>{brief_html}</div>' if brief_html else ''}
   {f'<ul class="stars">{stars}</ul>' if stars else ''}
   <div class="angle"><span class="angle-label">Your angle</span>{esc(card.get('angle', ''))}</div>
   {f'<ul class="riffs">{riffs}</ul>' if riffs else ''}
@@ -176,6 +184,16 @@ def render(data):
     border-radius: 999px; padding: 2px 10px;
   }}
   .context {{ margin: 14px 0 0 52px; font-size: 21px; }}
+  .brief {{
+    margin: 14px 0 0 52px; padding: 12px 16px; background: rgba(255,255,255,.03);
+    border: 1px solid var(--line); border-radius: 6px; font-size: 20px; color: #cfd6dd;
+  }}
+  .brief p {{ margin: 0 0 10px; }}
+  .brief p:last-child {{ margin-bottom: 0; }}
+  .brief-label {{
+    display: block; color: var(--dim); font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .12em; margin-bottom: 6px;
+  }}
   .stars {{ list-style: none; margin: 14px 0 0 52px; padding: 0; font-size: 21px; }}
   .stars li {{ margin: 7px 0; padding-left: 28px; position: relative; }}
   .stars li::before {{ content: "\\2726"; position: absolute; left: 2px; color: var(--accent); }}
