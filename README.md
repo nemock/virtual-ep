@@ -102,6 +102,13 @@ Three additional skills extend the toolkit once the show has a few episodes of h
 | `cross-episode-arc` | Find callback opportunities and surface running threads | `outbox/episodes/EP###/callbacks.md`, `outbox/themes/themes-YYYY-MM-DD.md` |
 | `voice-fingerprint` | Learn the host's voice from past transcripts | `style/voice-fingerprint.md` + optional config additions |
 
+Two skills form the **solo riff loop** — the fast path for a host recording unedited talking-head sessions with no co-host:
+
+| Skill | When to use | Output |
+|-------|-------------|--------|
+| `hot-sheet` | "Let's do an episode" — get a camera-ready browser tab | `outbox/episodes/EP###/hotsheet.html` (opened in a tab) |
+| `riff-capture` | After recording — mark topics spent, bank quotes for the voice library | Node status updates, `talk-time-handoff.md`, `debrief.md` stub |
+
 Each skill folder has a `SKILL.md` with full input/output specs, process steps, connector behavior, and examples.
 
 ## Workflow
@@ -133,6 +140,24 @@ Each skill folder has a `SKILL.md` with full input/output specs, process steps, 
 
 The editorial-calendar skill runs orthogonally — call it any time to check what's on deck or to mark status changes.
 
+### The solo riff loop
+
+For a host riffing to camera with no co-host, the full run-of-show pipeline is overkill. The short loop:
+
+```
+local inboxes (research-ingest nodes, voice library, …)
+                 ↓
+             hot-sheet ──→ hotsheet.html opens in a browser tab
+                 ↓
+             [record]
+                 ↓
+            riff-capture ──→ source nodes marked acted_on
+                 ↓           quotes/positions → talk-time-handoff.md
+        feeds the voice library → which feeds the next hot sheet
+```
+
+`hot-sheet` reads pre-ranked topic feeds configured under `topic_sources.local_inboxes` — indexes produced by pipelines outside this repo — instead of fetching the web. The page it opens carries a cold-open intro, one card per topic (context, source link, the host's pre-loaded angle, riff prompts), and a sign-off. Each card has a checkbox: served through `scripts/hotsheet_server.py` (the default), checking a card off writes `riffed.json` to the episode folder in real time, and `riff-capture` reads it with no input from the host. Opened as a plain file, the page falls back to browser-local state plus a copy button that emits the `riff-capture` command.
+
 ## Project structure
 
 ```
@@ -159,7 +184,12 @@ The editorial-calendar skill runs orthogonally — call it any time to check wha
 │   ├── post-show-debrief/
 │   ├── recurring-segment/
 │   ├── cross-episode-arc/
-│   └── voice-fingerprint/
+│   ├── voice-fingerprint/
+│   ├── hot-sheet/
+│   └── riff-capture/
+├── scripts/
+│   ├── render_hotsheet.py    # hotsheet.json → self-contained hotsheet.html
+│   └── hotsheet_server.py    # serves the sheet; checkboxes → riffed.json
 ├── templates/                # Markdown skeletons each skill fills in
 ├── examples/
 │   └── sample-episode/       # One complete cycle, fictional but illustrative
@@ -196,7 +226,9 @@ The toolkit is built for a specific format but most skills adapt with a single c
 
 **Different banned words**: extend `voice.banned_words_extra` and `voice.banned_phrases_extra` in the config without editing the canonical [style/voice.md](style/voice.md).
 
-**Solo show, no co-host**: set `cohost.name` to empty. The `cohost-brief` skill will skip running and `episode-program` will produce a host-only rundown.
+**Solo show, no co-host**: set `cohost.name` to empty. The `cohost-brief` skill will skip running and `episode-program` will produce a host-only rundown. For unedited riff-to-camera sessions, skip `episode-program` entirely and use the solo riff loop (`hot-sheet` → record → `riff-capture`).
+
+**Pre-ranked local topic feeds**: if a pipeline outside this repo already collects and ranks material (a research-ingest routine, a voice-library wiki), point `topic_sources.local_inboxes` at its index file. `hot-sheet` selects from it directly — no web fetching, no re-ranking.
 
 For format changes that go deeper than config — interview-led, narrative-led, panel — see [CONTRIBUTING.md](CONTRIBUTING.md).
 

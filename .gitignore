@@ -1,6 +1,9 @@
 # Per-user config — only the .example template is tracked
 config/podcast.yaml
 
+# Per-user brand assets (show art, logos) — not part of the generic toolkit
+assets/
+
 # Per-user voice fingerprint (built by the voice-fingerprint skill from the
 # user's own transcripts; not appropriate to ship)
 style/voice-fingerprint.md

@@ -140,6 +140,28 @@ segments:
 # Topic radar — sources to scan
 # ----------------------------------------------------------------------
 topic_sources:
+  # Local inboxes — pre-ranked topic feeds produced by pipelines OUTSIDE
+  # this repo (research-ingest routines, voice-library wikis, company-brain
+  # vaults). The hot-sheet skill reads these instead of fetching the web:
+  # the upstream pipeline already scored and deduplicated, so skills select
+  # from the index rather than re-ranking.
+  #
+  #   name:    label used in summaries and the `sources` input
+  #   path:    absolute path to the index file (markdown table or list
+  #            whose rows link to per-item node files)
+  #   filters: optional frontmatter constraints applied to candidates;
+  #            keys are matched against each node's frontmatter
+  #
+  # Example:
+  #   local_inboxes:
+  #     - name: external-voices
+  #       path: /abs/path/to/talk_time/external_voices/INBOX.md
+  #       filters:
+  #         status: new
+  #         purpose_tags_any: [riff_prompt, article_seed]
+  #         brand_tags_any: [brg, book, newsletter]
+  #         min_heat: 70
+  local_inboxes: []
   rss_feeds:
     - "https://stratechery.com/feed/"
     - "https://www.bloomberg.com/feed/podcast/odd-lots.xml"
