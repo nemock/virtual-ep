@@ -28,27 +28,32 @@ When this skill activates, follow these steps in order.
    - Resolve which cards were riffed: use the `cards` input if given; otherwise read `outbox/episodes/EP###/riffed.json` (written live by the hot sheet's checkboxes) and take the card numbers whose value is true. If neither exists, ask the host which cards they covered.
    - Resolve the card numbers to their `node` paths. Node paths are relative to the inbox they came from — resolve against the matching `topic_sources.local_inboxes` entry's base directory.
 
-2. **Mark spent nodes.**
+2. **Consolidate the recording into the episode folder.**
+   - The host records to a flat `recordings/` folder (OBS doesn't know the episode number at record time), so the master lands there with a date name like `recordings/YYYY-MM-DD_riff.mp4`.
+   - Move the most recent matching master into `outbox/episodes/EP###/` so everything for the episode lives in one place. Then run the audio-cleanup pass on it (mandatory) and write the cleaned master alongside. Generate the whisper transcript (always) — it can run off the raw in parallel with cleanup.
+   - If no master is found in `recordings/`, note it and continue (the host may have filed it manually).
+
+3. **Mark spent nodes.**
    - For each riffed card with a `node` path: open the node file and update its frontmatter `status` from `new` to `acted_on`. Leave every other field untouched. If the node is already `acted_on` or `discarded`, skip and note it.
    - If the upstream pipeline documents a different convention, follow that convention — check the inbox's README or the node's own frontmatter vocabulary before inventing values.
    - Cards without a `node` path (ad-hoc topics) are skipped silently.
 
-3. **Extract voice material (only if `transcript` or `notes` provided).**
+4. **Extract voice material (only if `transcript` or `notes` provided).**
    - Read the transcript. For each riffed card's topic, pull:
      - **Quotes** — lines the host said that stand alone: sharp, opinionated, reusable. Verbatim, no cleanup beyond removing filler words.
      - **Positions** — takes that sound like durable stances rather than one-off reactions. Note which existing position slugs they reinforce (the card's `positions` list is the starting point) and flag apparent *new* positions explicitly.
      - **Anecdotes** — any personal story the host told. Capture the story beats, not a paraphrase.
    - Quality bar: 3 strong items beat 15 weak ones. If a card's riff produced nothing worth keeping, say so.
 
-4. **Write the handoff.**
+5. **Write the handoff.**
    - Path: `outbox/episodes/EP###/talk-time-handoff.md`.
    - Format: one section per riffed card with topic title, node path, and the extracted quotes/positions/anecdotes, each tagged with its type and any reinforced position slugs. Frontmatter records the episode, date, and transcript source.
    - This file is an *input* for the voice-library intake (e.g. a `/talk-time` session) — it does not write into the voice library directly. Note this in the summary.
 
-5. **Write the debrief stub.**
+6. **Write the debrief stub.**
    - Append to (or create) `outbox/episodes/EP###/debrief.md`: date recorded, cards riffed vs skipped, nodes marked, handoff written or not. The `post-show-debrief` skill extends this file later with performance data if the episode ships publicly.
 
-6. **Print summary.**
+7. **Print summary.**
    - Nodes flipped to `acted_on` (count + slugs), cards skipped, voice items extracted by type, handoff path. Suggest running the voice-library intake on the handoff if one was written.
 
 ## Connectors and APIs
