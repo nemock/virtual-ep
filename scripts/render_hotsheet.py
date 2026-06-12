@@ -17,7 +17,8 @@ hotsheet.json schema (all string fields are plain text unless noted):
   "title": "Working title",
   "date": "2026-06-11",
   "theme": "One-sentence common thread for the episode.",
-  "intro": { "candidates": ["line 1", "line 2"] },
+  "intro": { "candidates": ["line 1", "line 2"] },          // cold open — hook before any branding
+  "show_id": { "candidates": ["Welcome to ... I'm ..."] },  // optional, the who/what after the cold open
   "cards": [
     {
       "headline": "Card headline",
@@ -98,6 +99,11 @@ def render(data):
     )
     cards_html = "\n".join(render_card(c, i) for i, c in enumerate(cards))
     intro = render_lines((data.get("intro") or {}).get("candidates"), "big-line")
+    show_id = render_lines((data.get("show_id") or {}).get("candidates"), "big-line")
+    show_id_block = (
+        '<div class="block-label">Show ID — who you are, what this is. '
+        "Land it into the lens.</div>\n" + show_id
+    ) if show_id else ""
     signoff = render_lines((data.get("signoff") or {}).get("candidates"), "big-line")
 
     return f"""<!DOCTYPE html>
@@ -207,8 +213,10 @@ def render(data):
   <h1>{title}</h1>
   <p class="date">{date}</p>
 
-  <div class="block-label">Cold open — pick one, look up, say it</div>
+  <div class="block-label">Cold open — the hook, before any branding</div>
   {intro}
+
+  {show_id_block}
 
   <div class="block-label">Topics</div>
   {cards_html}

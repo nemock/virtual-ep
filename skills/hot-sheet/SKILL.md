@@ -53,7 +53,8 @@ When this skill activates, follow these steps in order.
    - Honesty rule: if the pool is thin or no thread exists, build the best mixed-bag sheet you can and say plainly in the summary that it's a grab bag.
 
 5. **Draft the sheet content.**
-   - **Intro candidates (2–3):** each under 25 words, in the show's voice, framing the thread. These are the only lines on the page meant to be spoken close to verbatim — make them memorable enough to deliver after one glance, not teleprompter prose.
+   - **Intro candidates (2–3):** each under 25 words, in the show's voice, framing the thread. The cold open is the hook and comes before any branding — make each line memorable enough to deliver after one glance, not teleprompter prose.
+   - **Show ID candidates (2):** the who-and-what that follows the cold open: show name, host name, one credential clause, and optionally a one-clause tease of tonight's thread. Built from `show.name` and `host.short_bio`. Keep the fixed part stable across episodes so it becomes a ritual the host can say from memory; only the tease clause varies.
    - **Per card:**
      - `headline` — the topic in the host's framing, not the source's headline.
      - `context` — a 15-second setup: who, what number, what happened. One or two sentences.
