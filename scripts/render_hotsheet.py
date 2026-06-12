@@ -29,7 +29,12 @@ hotsheet.json schema (all string fields are plain text unless noted):
                 sequence, reactions) so the host never has to click the source link
                 mid-session. String or list of paragraph strings.",
       "stars": ["anchor fact 1", "anchor fact 2"],  // optional, the names/numbers/quotes to orient on
-      "angle": "The host's pre-loaded take.",
+      // The triangulation trio — three angles on the same story:
+      "meaning": "What this means — plain-language explanation pitched at a sharp
+                  college undergrad, not a PhD. What actually happened / what it's
+                  trying to say, no jargon.",
+      "why": "Why it matters — the stakes, who's affected, why it's worth airtime.",
+      "angle": "My take — the host's own pre-loaded opinion.",
       "riffs": ["prompt 1", "prompt 2"],
       "positions": ["position-slug"],   // optional, voice-library callbacks
       "node": "relative/path/to/node.md" // optional, for riff-capture
@@ -62,10 +67,12 @@ def render_card(card, index):
     source = esc(card.get("source", ""))
     url = card.get("url", "")
     link = (
+        f'<span class="source-tag">Source</span>'
         f'<a class="source-link" href="{esc(url)}" target="_blank" rel="noopener">'
         f"{source or 'source'} &#8599;</a>"
         if url
-        else f'<span class="source-link plain">{source}</span>'
+        else f'<span class="source-tag">Source</span>'
+        f'<span class="source-link plain">{source}</span>'
     )
     brief = card.get("brief", "")
     if isinstance(brief, str):
@@ -90,7 +97,9 @@ def render_card(card, index):
   <p class="context">{esc(card.get('context', ''))}</p>
   {f'<div class="brief"><span class="brief-label">The story</span>{brief_html}</div>' if brief_html else ''}
   {f'<ul class="stars">{stars}</ul>' if stars else ''}
-  <div class="angle"><span class="angle-label">Your angle</span>{esc(card.get('angle', ''))}</div>
+  {f'<div class="lens meaning"><span class="lens-label">What this means</span>{esc(card.get("meaning", ""))}</div>' if card.get("meaning") else ''}
+  {f'<div class="lens why"><span class="lens-label">Why it matters</span>{esc(card.get("why", ""))}</div>' if card.get("why") else ''}
+  <div class="angle"><span class="angle-label">My take</span>{esc(card.get('angle', ''))}</div>
   {f'<ul class="riffs">{riffs}</ul>' if riffs else ''}
 </section>"""
 
@@ -124,6 +133,7 @@ def render(data):
   :root {{
     --bg: #0e1116; --panel: #161b22; --text: #e8e8e4; --dim: #9aa4b2;
     --accent: #f0b429; --accent-dim: #8a6a1d; --done: #3fb950; --line: #2d333b;
+    --lens: #58a6ff;
   }}
   * {{ box-sizing: border-box; }}
   body {{
@@ -175,6 +185,10 @@ def render(data):
   .riffed-box input {{ width: 22px; height: 22px; accent-color: var(--done); cursor: pointer; }}
   .card.done .riffed-box {{ color: var(--done); }}
   .meta-row {{ margin: 10px 0 0 52px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }}
+  .source-tag {{
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--bg); background: var(--accent); border-radius: 4px; padding: 2px 7px;
+  }}
   .source-link {{ color: var(--accent); text-decoration: none; font-size: 15px; font-weight: 600; }}
   .source-link:hover {{ text-decoration: underline; }}
   .source-link.plain {{ color: var(--dim); }}
@@ -197,8 +211,16 @@ def render(data):
   .stars {{ list-style: none; margin: 14px 0 0 52px; padding: 0; font-size: 21px; }}
   .stars li {{ margin: 7px 0; padding-left: 28px; position: relative; }}
   .stars li::before {{ content: "\\2726"; position: absolute; left: 2px; color: var(--accent); }}
+  .lens {{
+    margin: 14px 0 0 52px; padding: 12px 16px; border-left: 4px solid var(--lens);
+    background: rgba(88,166,255,.07); border-radius: 6px; font-size: 21px;
+  }}
+  .lens-label {{
+    display: block; color: var(--lens); font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .12em; margin-bottom: 4px;
+  }}
   .angle {{
-    margin: 16px 0 0 52px; padding: 12px 16px; border-left: 4px solid var(--accent);
+    margin: 14px 0 0 52px; padding: 12px 16px; border-left: 4px solid var(--accent);
     background: rgba(240,180,41,.07); border-radius: 6px; font-size: 21px;
   }}
   .angle-label {{

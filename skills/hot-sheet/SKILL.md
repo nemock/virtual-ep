@@ -65,7 +65,10 @@ When this skill activates, follow these steps in order.
      - `context` — a 15-second setup: who, what number, what happened. One or two sentences.
      - `brief` — the producer's brief from step 5. This is the meat: the host picks up the full story from the card, not from the link.
      - `stars` — 3–5 anchor bullets: the names, numbers, and verbatim quotes to orient on, including a "your story bank" line when one of the host's own anecdotes fits.
-     - `angle` — the host's pre-loaded take. If the node already carries one (e.g. a "potential angle" section naming voice-library positions), use it as the basis; otherwise draft one from the show's point of view.
+     - The **triangulation trio** — three distinct angles on the same story, so the host can come at it from whichever one sparks:
+       - `meaning` — "What this means": a plain-language read pitched at a sharp college undergrad, not a PhD. What actually happened, or what the piece is trying to say, with the jargon stripped out. This is the de-jargoning layer, separate from the factual brief.
+       - `why` — "Why it matters": the stakes. Who's affected, what changes, why it earns airtime.
+       - `angle` — "My take": the host's own opinion, the one labeled thing on the card that is pure point of view. If the node carries a pre-written angle naming voice-library positions, use it as the basis. If the node already carries one (e.g. a "potential angle" section naming voice-library positions), use it as the basis; otherwise draft one from the show's point of view.
      - `riffs` — 2–3 open prompts that point at where the riff can go ("What does this mean for the founder who…", "The historical parallel here is…"). Prompts, not sentences to read.
      - `positions` — voice-library position slugs this card reinforces, if any.
      - `source`, `url` — where the host can click for the full story mid-session.
