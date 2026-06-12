@@ -24,6 +24,7 @@ hotsheet.json schema (all string fields are plain text unless noted):
       "source": "r/biotech",
       "url": "https://...",            // optional
       "context": "15-second setup the host can glance at.",
+      "stars": ["anchor fact 1", "anchor fact 2"],  // optional, the names/numbers/quotes to orient on
       "angle": "The host's pre-loaded take.",
       "riffs": ["prompt 1", "prompt 2"],
       "positions": ["position-slug"],   // optional, voice-library callbacks
@@ -62,6 +63,7 @@ def render_card(card, index):
         if url
         else f'<span class="source-link plain">{source}</span>'
     )
+    stars = "\n".join(f"<li>{esc(s)}</li>" for s in card.get("stars", []))
     riffs = "\n".join(f"<li>{esc(r)}</li>" for r in card.get("riffs", []))
     chips = "\n".join(
         f'<span class="chip">{esc(p)}</span>' for p in card.get("positions", [])
@@ -78,6 +80,7 @@ def render_card(card, index):
   </div>
   <div class="meta-row">{link}{('<span class="chips">' + chips + '</span>') if chips else ''}</div>
   <p class="context">{esc(card.get('context', ''))}</p>
+  {f'<ul class="stars">{stars}</ul>' if stars else ''}
   <div class="angle"><span class="angle-label">Your angle</span>{esc(card.get('angle', ''))}</div>
   {f'<ul class="riffs">{riffs}</ul>' if riffs else ''}
 </section>"""
@@ -111,7 +114,7 @@ def render(data):
   * {{ box-sizing: border-box; }}
   body {{
     margin: 0; background: var(--bg); color: var(--text);
-    font: 18px/1.55 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    font: 20px/1.55 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
   }}
   header {{
     position: sticky; top: 0; z-index: 10; background: rgba(14,17,22,.95);
@@ -134,7 +137,7 @@ def render(data):
     font-size: 13px; font-weight: 700; margin: 36px 0 10px;
   }}
   .big-line {{
-    font-size: 26px; line-height: 1.4; margin: 0 0 14px; padding: 14px 18px;
+    font-size: 28px; line-height: 1.4; margin: 0 0 14px; padding: 14px 18px;
     background: var(--panel); border-left: 4px solid var(--accent); border-radius: 6px;
   }}
   .card {{
@@ -150,7 +153,7 @@ def render(data):
     border: 2px solid var(--accent); background: transparent; color: var(--accent);
     font-size: 18px; font-weight: 700; cursor: pointer; margin-top: 2px;
   }}
-  .card h2 {{ font-size: 27px; line-height: 1.25; margin: 0; flex: 1; }}
+  .card h2 {{ font-size: 29px; line-height: 1.25; margin: 0; flex: 1; }}
   .riffed-box {{
     flex: 0 0 auto; margin-left: auto; display: flex; align-items: center; gap: 8px;
     color: var(--dim); font-size: 14px; cursor: pointer; padding-top: 8px;
@@ -166,16 +169,19 @@ def render(data):
     font-size: 12px; color: var(--dim); border: 1px solid var(--line);
     border-radius: 999px; padding: 2px 10px;
   }}
-  .context {{ margin: 14px 0 0 52px; font-size: 19px; }}
+  .context {{ margin: 14px 0 0 52px; font-size: 21px; }}
+  .stars {{ list-style: none; margin: 14px 0 0 52px; padding: 0; font-size: 21px; }}
+  .stars li {{ margin: 7px 0; padding-left: 28px; position: relative; }}
+  .stars li::before {{ content: "\\2726"; position: absolute; left: 2px; color: var(--accent); }}
   .angle {{
     margin: 16px 0 0 52px; padding: 12px 16px; border-left: 4px solid var(--accent);
-    background: rgba(240,180,41,.07); border-radius: 6px; font-size: 19px;
+    background: rgba(240,180,41,.07); border-radius: 6px; font-size: 21px;
   }}
   .angle-label {{
     display: block; color: var(--accent); font-size: 12px; font-weight: 700;
     text-transform: uppercase; letter-spacing: .12em; margin-bottom: 4px;
   }}
-  .riffs {{ margin: 14px 0 0 52px; padding-left: 22px; font-size: 19px; }}
+  .riffs {{ margin: 14px 0 0 52px; padding-left: 22px; font-size: 21px; }}
   .riffs li {{ margin: 6px 0; }}
   footer {{
     max-width: 880px; margin: 0 auto; padding: 0 28px 60px; color: var(--dim); font-size: 14px;
