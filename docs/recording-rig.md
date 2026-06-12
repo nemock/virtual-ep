@@ -75,7 +75,12 @@ between cards without touching the mouse.
 1. Hot sheet is open and served (checkboxes saving to disk — footer says so).
 2. OBS open, "Riff" scene active, mic meter peaking −12 to −6 dB on a test sentence.
 3. Hit Record. Say the cold open. Riff. Check cards off as you go.
-4. Stop. The master lands in the recordings folder — **archive it raw, then
-   run the audio-cleanup pass before anything downstream uses it.**
-5. "Capture EP###" — spent topics get marked, quotes get banked.
-6. Upload to YouTube, add to the podcast playlist (full episodes only).
+4. Stop. The master lands in the recordings folder — archive it raw.
+5. **Transcribe — always.** whisper-local on the master, into the episode
+   folder. The transcript feeds quote extraction and show notes; it is a
+   standing step, not an option.
+6. Audio cleanup — **optional.** A dynamic mic worked close usually doesn't
+   need it. Spot-check the master; run the cleanup pass only if the raw
+   audio has a defect (hum, rumble, uneven levels) worth fixing.
+7. "Capture EP###" — spent topics get marked, quotes get banked.
+8. Upload to YouTube, add to the podcast playlist (full episodes only).
